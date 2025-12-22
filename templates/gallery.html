@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="gallery-container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="gallery-header">
+        <h2>Thư viện ảnh của bạn</h2>
+
+        <div class="gallery-menu">
+            <a href="/pricing">Bảng giá</a>
+            <a href="/change-password">Đổi mật khẩu</a>
+            <a href="/logout">Đăng xuất</a>
+        </div>
+    </div>
+
+    <!-- ===== UPLOAD FORM ===== -->
+    <form class="upload-box" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <!-- ===== IMAGE GRID ===== -->
+    <div class="gallery-grid">
+        {% if images %}
+            {% for img in images %}
+            <div class="gallery-item">
+
+                <!-- IMAGE -->
+                <img src="/uploads/{{ img.filename }}" alt="image">
+
+                <!-- ACTION -->
+                <div class="gallery-action">
+                    <span title="{{ img.filename }}">{{ img.filename }}</span>
+
+                    <form method="post" action="/delete/{{ img.id }}">
+                        <button class="delete-btn" type="submit"
+                                onclick="return confirm('Bạn có chắc muốn xoá ảnh này?')">
+                            Xoá
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Chưa có ảnh nào. Hãy upload ảnh đầu tiên 📸</p>
+        {% endif %}
+    </div>
+
+</div>
+
+</body>
+</html>
